@@ -9,6 +9,7 @@ ENV RTMP_MODULE_VERSION=${RTMP_MODULE_VERSION}
 RUN apt-get -y update && \
     apt-get -y install --no-install-recommends \
         build-essential \
+        ca-certificates \
         linux-headers-generic \
         libssl-dev \
         libpcre2-dev \
