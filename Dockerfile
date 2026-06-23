@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim AS builder
 
-ARG NGINX_VERSION=1.29.7
+ARG NGINX_VERSION=1.31.2
 ARG RTMP_MODULE_VERSION=master
 
 ENV NGINX_VERSION=${NGINX_VERSION}
@@ -38,6 +38,7 @@ RUN ./configure \
     --with-http_v2_module \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
+    --with-http_auth_request_module \
     --with-threads \
     --with-file-aio \
     --add-module=../nginx-rtmp-module
