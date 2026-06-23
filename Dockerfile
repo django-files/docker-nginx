@@ -39,6 +39,7 @@ RUN ./configure \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
     --with-http_auth_request_module \
+    --with-http_sub_module \
     --with-threads \
     --with-file-aio \
     --add-module=../nginx-rtmp-module
