@@ -1,7 +1,12 @@
 FROM debian:bookworm-slim AS builder
 
-ARG NGINX_VERSION=1.31.2
-ARG RTMP_MODULE_VERSION=master
+ARG NGINX_VERSION=1.31.3
+# arut/nginx-rtmp-module has no tag newer than v1.2.2 (2021), which predates
+# compat fixes this module needs to build against current nginx mainline
+# (clang compilation fix, wildcard listening flag propagation for nginx
+# commit cb149fa03367). Pin to a specific master commit instead of the
+# floating branch name so builds stay reproducible; bump deliberately.
+ARG RTMP_MODULE_VERSION=6c7719d0ba32e00b563ec70bd43dad11960fa9c4
 
 ENV NGINX_VERSION=${NGINX_VERSION}
 ENV RTMP_MODULE_VERSION=${RTMP_MODULE_VERSION}
@@ -22,7 +27,8 @@ RUN apt-get -y update && \
 WORKDIR /tmp/build
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl --proto '=https' -L "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" | tar xz && \
-    git clone https://github.com/arut/nginx-rtmp-module.git -b "${RTMP_MODULE_VERSION}" && \
+    git clone https://github.com/arut/nginx-rtmp-module.git && \
+    git -C nginx-rtmp-module checkout "${RTMP_MODULE_VERSION}" && \
     cp ./nginx-rtmp-module/stat.xsl /stat.xsl
 
 WORKDIR /tmp/build/nginx-${NGINX_VERSION}
