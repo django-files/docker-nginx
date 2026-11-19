@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim AS builder
 
-ARG NGINX_VERSION=1.31.3
+ARG NGINX_VERSION=1.31.9
 # arut/nginx-rtmp-module has no tag newer than v1.2.2 (2021), which predates
 # compat fixes this module needs to build against current nginx mainline
 # (clang compilation fix, wildcard listening flag propagation for nginx
@@ -41,7 +41,6 @@ RUN ./configure \
     --pid-path=/var/run/nginx.pid \
     --lock-path=/var/run/nginx.lock \
     --with-http_ssl_module \
-    --with-http_v2_module \
     --with-http_gzip_static_module \
     --with-http_secure_link_module \
     --with-http_auth_request_module \
